@@ -1,47 +1,61 @@
 @extends('layouts.app')
-
 @section('content')
-<h1>Dashboard</h1>
-<p class="form-caption">A quick overview of your event activity, participants, and current status trends.</p>
+
+<div class="page-header">
+    <div class="page-header-text">
+        <h1>Dashboard</h1>
+        <p>Welcome back, {{ auth()->user()->name }}. Here's what's happening.</p>
+    </div>
+    <a class="btn btn-primary" href="{{ route('events.create') }}">+ New Event</a>
+</div>
 
 <div class="stats-grid">
     <div class="stat-card">
-        <strong>Total events</strong>
-        <span>{{ $totalEvents }}</span>
+        <div class="stat-label">Total Events</div>
+        <div class="stat-value">{{ $totalEvents }}</div>
     </div>
     <div class="stat-card">
-        <strong>Total participants</strong>
-        <span>{{ $totalParticipants }}</span>
+        <div class="stat-label">Participants</div>
+        <div class="stat-value">{{ $totalParticipants }}</div>
     </div>
-    <div class="stat-card">
-        <strong>Upcoming events</strong>
-        <span>{{ $upcomingEvents }}</span>
+    <div class="stat-card accent-upcoming">
+        <div class="stat-label">Upcoming</div>
+        <div class="stat-value">{{ $upcomingEvents }}</div>
     </div>
-    <div class="stat-card">
-        <strong>Ongoing events</strong>
-        <span>{{ $ongoingEvents }}</span>
+    <div class="stat-card accent-ongoing">
+        <div class="stat-label">Ongoing</div>
+        <div class="stat-value">{{ $ongoingEvents }}</div>
     </div>
-    <div class="stat-card">
-        <strong>Done events</strong>
-        <span>{{ $doneEvents }}</span>
+    <div class="stat-card accent-done">
+        <div class="stat-label">Done</div>
+        <div class="stat-value">{{ $doneEvents }}</div>
     </div>
 </div>
 
-<section>
-    <h2>Upcoming events</h2>
-    <div class="events-grid">
-        @forelse($latestEvents as $event)
-            <article class="event-card">
-                <a class="event-title" href="{{ route('events.show', $event) }}">{{ $event->title }}</a>
-                <div class="event-meta">
-                    <span class="badge {{ $event->status_badge_class }}">{{ $event->computed_status }}</span>
-                    <span>{{ $event->date }}</span>
-                    <span>{{ $event->participants_count }} participant{{ $event->participants_count === 1 ? '' : 's' }}</span>
-                </div>
-            </article>
-        @empty
-            <div class="flash">No events are available yet.</div>
-        @endforelse
+<div class="card">
+    <div class="card-header">
+        <h2>Upcoming Events</h2>
+        <a class="btn btn-secondary btn-sm" href="{{ route('events.index') }}">View all</a>
     </div>
-</section>
+
+    @forelse($latestEvents as $event)
+        <div style="padding: .9rem 1.5rem; border-bottom: 1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+            <div style="display:flex; align-items:center; gap:.75rem; flex-wrap:wrap;">
+                <span class="badge {{ $event->status_badge_class }}">{{ $event->computed_status }}</span>
+                <a href="{{ route('events.show', $event) }}" style="font-weight:600; color:var(--text); text-decoration:none; font-size:.95rem;">{{ $event->title }}</a>
+            </div>
+            <div style="display:flex; align-items:center; gap:1.25rem; color:var(--muted); font-size:.86rem; flex-shrink:0;">
+                <span>&#128197; {{ \Carbon\Carbon::parse($event->date)->format('M j, Y') }}</span>
+                <span>&#128101; {{ $event->participants_count }} participant{{ $event->participants_count === 1 ? '' : 's' }}</span>
+            </div>
+        </div>
+    @empty
+        <div class="empty-state">
+            <div class="empty-state-icon">&#128197;</div>
+            <p>No events yet. Create your first event to get started.</p>
+            <a class="btn btn-primary btn-sm" href="{{ route('events.create') }}">Create Event</a>
+        </div>
+    @endforelse
+</div>
+
 @endsection
