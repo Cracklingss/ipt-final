@@ -37,8 +37,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        $organizers = EventOrganizer::all();
-        return view('events.create', compact('organizers'));
+        return view('events.create');
     }
 
     /**
@@ -51,10 +50,33 @@ class EventController extends Controller
             'date' => 'required|date',
             'status' => 'required|in:upcoming,ongoing,done',
             'category' => 'nullable|string|max:80',
-            'event_organizer_id' => 'nullable|exists:event_organizers,id',
+            'organizer_name' => 'nullable|string|max:150',
         ]);
 
-        $event = Event::create($data);
+        // Handle organizer
+        $organizerId = null;
+        if ($data['organizer_name']) {
+            $organizer = EventOrganizer::firstOrCreate(
+                ['name' => $data['organizer_name']]
+            );
+            $organizerId = $organizer->id;
+        }
+
+        // Create event
+        $event = Event::create([
+            'title' => $data['title'],
+            'date' => $data['date'],
+            'status' => $data['status'],
+            'category' => $data['category'],
+            'event_organizer_id' => $organizerId,
+        ]);
+
+        // Log activity
+        \App\Models\Notification::create([
+            'event_id' => $event->id,
+            'message' => "Event '{$event->title}' created",
+            'activity_type' => 'created',
+        ]);
 
         return redirect()->route('events.show', $event);
     }
@@ -73,8 +95,7 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        $organizers = EventOrganizer::all();
-        return view('events.edit', compact('event','organizers'));
+        return view('events.edit', compact('event'));
     }
 
     /**
@@ -87,10 +108,40 @@ class EventController extends Controller
             'date' => 'required|date',
             'status' => 'required|in:upcoming,ongoing,done',
             'category' => 'nullable|string|max:80',
-            'event_organizer_id' => 'nullable|exists:event_organizers,id',
+            'organizer_name' => 'nullable|string|max:150',
         ]);
 
-        $event->update($data);
+        // Track if status changed for activity logging
+        $statusChanged = $event->status !== $data['status'];
+        $oldStatus = $event->status;
+
+        // Handle organizer
+        $organizerId = null;
+        if ($data['organizer_name']) {
+            $organizer = EventOrganizer::firstOrCreate(
+                ['name' => $data['organizer_name']]
+            );
+            $organizerId = $organizer->id;
+        }
+
+        // Update event
+        $event->update([
+            'title' => $data['title'],
+            'date' => $data['date'],
+            'status' => $data['status'],
+            'category' => $data['category'],
+            'event_organizer_id' => $organizerId,
+        ]);
+
+        // Log activity if status changed
+        if ($statusChanged) {
+            \App\Models\Notification::create([
+                'event_id' => $event->id,
+                'message' => "Event status changed from '{$oldStatus}' to '{$data['status']}'",
+                'activity_type' => 'status_changed',
+            ]);
+        }
+
         return redirect()->route('events.show', $event);
     }
 
@@ -99,7 +150,8 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
+        $eventTitle = $event->title;
         $event->delete();
-        return redirect()->route('events.index');
+        return redirect()->route('events.index')->with('success', "Event '{$eventTitle}' has been deleted.");
     }
 }

@@ -25,7 +25,7 @@
                 <a href="{{ route('notifications.index') }}" class="{{ request()->routeIs('notifications.*') ? 'active' : '' }}">Notifications</a>
                 <div class="nav-sep"></div>
                 <span class="nav-user">{{ auth()->user()->name }}</span>
-                <form method="POST" action="{{ route('logout') }}" class="nav-form">
+                <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="button" onclick="this.closest('form').submit()" class="btn-ghost">Logout</button>
                 </form>

@@ -43,14 +43,10 @@
     </div>
 
     <div class="field-group">
-        <label>Organizer</label>
-        <select name="event_organizer_id" class="{{ $errors->has('event_organizer_id') ? 'input-error' : '' }}">
-            <option value="">No organizer</option>
-            @foreach($organizers as $org)
-                <option value="{{ $org->id }}" {{ old('event_organizer_id') == $org->id ? 'selected' : '' }}>{{ $org->name }}</option>
-            @endforeach
-        </select>
-        @error('event_organizer_id')<div class="field-error">{{ $message }}</div>@enderror
+        <label>Organizer Name</label>
+        <input name="organizer_name" type="text" value="{{ old('organizer_name') }}" placeholder="Name of event organizer" 
+            class="{{ $errors->has('organizer_name') ? 'input-error' : '' }}" />
+        @error('organizer_name')<div class="field-error">{{ $message }}</div>@enderror
     </div>
 
     <button type="submit">Create event</button>

@@ -11,24 +11,24 @@
 
 <div class="stats-grid">
     <div class="stat-card">
-        <div class="stat-label">Total Events</div>
-        <div class="stat-value">{{ $totalEvents }}</div>
+        <strong>Total Events</strong>
+        <span>{{ $totalEvents }}</span>
     </div>
     <div class="stat-card">
-        <div class="stat-label">Participants</div>
-        <div class="stat-value">{{ $totalParticipants }}</div>
+        <strong>Participants</strong>
+        <span>{{ $totalParticipants }}</span>
     </div>
-    <div class="stat-card accent-upcoming">
-        <div class="stat-label">Upcoming</div>
-        <div class="stat-value">{{ $upcomingEvents }}</div>
+    <div class="stat-card">
+        <strong>Upcoming</strong>
+        <span>{{ $upcomingEvents }}</span>
     </div>
-    <div class="stat-card accent-ongoing">
-        <div class="stat-label">Ongoing</div>
-        <div class="stat-value">{{ $ongoingEvents }}</div>
+    <div class="stat-card">
+        <strong>Ongoing</strong>
+        <span>{{ $ongoingEvents }}</span>
     </div>
-    <div class="stat-card accent-done">
-        <div class="stat-label">Done</div>
-        <div class="stat-value">{{ $doneEvents }}</div>
+    <div class="stat-card">
+        <strong>Done</strong>
+        <span>{{ $doneEvents }}</span>
     </div>
 </div>
 

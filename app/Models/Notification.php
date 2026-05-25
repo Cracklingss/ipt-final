@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
 {
-    protected $fillable = ['event_id', 'message', 'date_sent'];
+    protected $fillable = ['event_id', 'message', 'date_sent', 'activity_type'];
 
     public function event()
     {
