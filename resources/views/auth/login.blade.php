@@ -10,7 +10,6 @@
 
         @if ($errors->any())
             <div class="alert alert-error" role="alert">
-                <span class="alert-icon">&#9888;</span>
                 <span>{{ $errors->first() }}</span>
             </div>
         @endif

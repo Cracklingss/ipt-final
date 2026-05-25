@@ -28,7 +28,7 @@
         </div>
     @empty
         <div class="empty-state">
-            <div class="empty-state-icon">📋</div>
+            <div class="empty-state-icon"></div>
             <p>No activities recorded yet. Create, update, or delete events to see activity logs.</p>
         </div>
     @endforelse

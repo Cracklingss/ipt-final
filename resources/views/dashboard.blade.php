@@ -45,13 +45,12 @@
                 <a href="{{ route('events.show', $event) }}" style="font-weight:600; color:var(--text); text-decoration:none; font-size:.95rem;">{{ $event->title }}</a>
             </div>
             <div style="display:flex; align-items:center; gap:1.25rem; color:var(--muted); font-size:.86rem; flex-shrink:0;">
-                <span>&#128197; {{ \Carbon\Carbon::parse($event->date)->format('M j, Y') }}</span>
-                <span>&#128101; {{ $event->participants_count }} participant{{ $event->participants_count === 1 ? '' : 's' }}</span>
+                <span>{{ \Carbon\Carbon::parse($event->date)->format('M j, Y') }}</span>
+                <span>{{ $event->participants_count }} participant{{ $event->participants_count === 1 ? '' : 's' }}</span>
             </div>
         </div>
     @empty
         <div class="empty-state">
-            <div class="empty-state-icon">&#128197;</div>
             <p>No events yet. Create your first event to get started.</p>
             <a class="btn btn-primary btn-sm" href="{{ route('events.create') }}">Create Event</a>
         </div>

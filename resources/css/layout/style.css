@@ -2,28 +2,28 @@
    EventManager — design system
    ============================================================ */
 :root {
-    --bg: #f9f8f6;
+    --bg: #eef4ff;
     --surface: #ffffff;
-    --text: #111111;
-    --muted: #6b6b6b;
-    --border: #e4e2de;
-    --accent: #1a1a1a;
+    --text: #0f172a;
+    --muted: #475569;
+    --border: #dbe7fb;
+    --accent: #2563eb;
     --accent-fg: #ffffff;
-    --danger: #c0392b;
+    --danger: #c2410c;
     --danger-bg: #fff1f0;
-    --danger-bd: #f0c2bf;
-    --success-bg: #f0fdf4;
-    --success-bd: #bbf7d0;
+    --danger-bd: #fcd0c2;
+    --success-bg: #ecfdf5;
+    --success-bd: #86efac;
     --success-fg: #166534;
-    --info-bg: #eff6ff;
-    --info-bd: #bfdbfe;
-    --info-fg: #1e40af;
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
+    --info-bg: #e0f2fe;
+    --info-bd: #bae6fd;
+    --info-fg: #1d4ed8;
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 22px;
     --radius-xl: 28px;
-    --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.07);
+    --shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+    --shadow-md: 0 18px 42px rgba(15, 23, 42, 0.12);
     --transition: 0.18s ease;
 }
 
@@ -36,6 +36,7 @@ html {
     scroll-behavior: smooth;
 }
 
+body,
 body.app-root {
     margin: 0;
     min-height: 100vh;
@@ -71,6 +72,13 @@ body.app-root {
     gap: 1.5rem;
     height: 56px;
 }
+.app-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+}
 .header-brand .brand {
     font-size: 0.88rem;
     font-weight: 700;
@@ -85,6 +93,34 @@ body.app-root {
     gap: 0.25rem;
     flex-wrap: wrap;
 }
+
+.nav-toggle {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+
+.nav-burger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text);
+    transition:
+        background var(--transition),
+        transform var(--transition);
+}
+
+.nav-burger:hover {
+    background: rgba(37, 99, 235, 0.08);
+}
+
 .nav-links a {
     color: var(--muted);
     text-decoration: none;
@@ -98,8 +134,8 @@ body.app-root {
 }
 .nav-links a:hover,
 .nav-links a.active {
-    background: #f0f0ee;
-    color: var(--text);
+    background: rgba(37, 99, 235, 0.12);
+    color: var(--accent);
 }
 .nav-sep {
     width: 1px;
@@ -111,12 +147,11 @@ body.app-root {
     font-size: 0.82rem;
     color: var(--muted);
     padding: 0.35rem 0.75rem;
-    background: #f5f4f1;
+    background: rgba(37, 99, 235, 0.08);
     border-radius: 999px;
 }
 .nav-form {
     margin: 0;
-    display: contents;
     border: none;
     padding: 0;
     box-shadow: none;
@@ -468,8 +503,8 @@ button[type="button"] {
     align-items: center;
     justify-content: center;
     gap: 0.4rem;
-    padding: 0.6rem 1.25rem;
-    border-radius: 999px;
+    padding: 0.65rem 1.25rem;
+    border-radius: 14px;
     border: 1px solid transparent;
     font-size: 0.88rem;
     font-weight: 600;
@@ -488,21 +523,22 @@ button[type="submit"] {
     background: var(--accent);
     color: var(--accent-fg);
     border-color: var(--accent);
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.12);
 }
 .btn-primary:hover,
 button[type="submit"]:hover {
-    background: #333;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    background: #1d4ed8;
+    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.18);
     transform: translateY(-1px);
 }
 .btn-secondary {
     background: transparent;
-    color: var(--text);
-    border-color: var(--border);
+    color: var(--accent);
+    border-color: rgba(37, 99, 235, 0.25);
 }
 .btn-secondary:hover {
-    background: #f0f0ee;
-    border-color: #ccc;
+    background: rgba(37, 99, 235, 0.08);
+    border-color: rgba(37, 99, 235, 0.35);
 }
 .btn-danger-outline {
     background: transparent;
@@ -732,6 +768,9 @@ select {
 @media (max-width: 640px) {
     .app-header-inner {
         padding: 0 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
     }
     .app-main {
         padding: 1.5rem 1rem 3rem;
@@ -744,10 +783,15 @@ select {
     }
     .detail-row {
         grid-template-columns: 1fr;
-        gap: 0.2rem;
+        gap: 0.75rem;
     }
     .page-header {
         flex-direction: column;
+        align-items: stretch;
+    }
+    .page-header-text {
+        text-align: center;
+        width: 100%;
     }
     .filter-bar {
         flex-direction: column;
@@ -756,13 +800,215 @@ select {
     .filter-bar select {
         min-width: 100%;
     }
+    .page-actions {
+        justify-content: center;
+    }
     h1 {
         font-size: 1.5rem;
     }
     .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
     }
     .events-grid {
         grid-template-columns: 1fr;
+    }
+    .card-header {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+    }
+    .filter-bar {
+        gap: 0.75rem;
+    }
+    .nav-burger {
+        display: inline-flex;
+    }
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        width: 100%;
+        gap: 0.45rem;
+        background: rgba(255, 255, 255, 0.98);
+        padding: 0.75rem 0.7rem 0.6rem;
+        border-radius: 1rem;
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+    }
+    .nav-toggle:checked + .nav-burger + .nav-links {
+        display: flex;
+    }
+    .nav-links a,
+    .nav-links span,
+    .nav-form {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    .nav-form {
+        display: flex;
+    }
+    .btn,
+    button,
+    .button {
+        width: 100%;
+    }
+    .td-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .activity-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+@media (max-width: 640px) {
+    .app-header-inner {
+        padding: 0.85rem 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        height: auto;
+        gap: 0;
+    }
+
+    .app-header-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    /* BURGER BUTTON */
+    .nav-burger {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        gap: 4px;
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        transition: background var(--transition);
+    }
+
+    .nav-burger:hover {
+        background: rgba(37, 99, 235, 0.08);
+    }
+
+    .nav-burger span {
+        width: 20px;
+        height: 2px;
+        background: var(--text);
+        border-radius: 999px;
+        transition: all var(--transition);
+    }
+
+    /* HIDE NAV INITIALLY */
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        gap: 0.45rem;
+        margin-top: 0.85rem;
+        padding: 0.75rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+    }
+
+    /* SHOW NAV WHEN CHECKED */
+    #nav-toggle:checked ~ .nav-links {
+        display: flex;
+    }
+
+    /* MOBILE LINKS */
+    .nav-links a,
+    .nav-user,
+    .nav-form {
+        width: 100%;
+    }
+
+    .nav-links a,
+    .nav-form .btn-ghost {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+        background: rgba(37, 99, 235, 0.12);
+    }
+
+    .nav-user {
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
+    }
+
+    .nav-sep {
+        display: none;
+    }
+
+    /* OTHER RESPONSIVE FIXES */
+    .app-main {
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    .form-card {
+        padding: 1.25rem 1.1rem;
+    }
+
+    .auth-card {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .detail-row {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .page-header-text {
+        text-align: center;
+        width: 100%;
+    }
+
+    .stats-grid,
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-bar {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .filter-bar input,
+    .filter-bar select {
+        min-width: 100%;
+    }
+
+    .page-actions,
+    .td-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn,
+    button,
+    .button {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 1.5rem;
     }
 }

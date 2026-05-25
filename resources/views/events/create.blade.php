@@ -47,9 +47,9 @@
         <input name="organizer_name" type="text" value="{{ old('organizer_name') }}" placeholder="Name of event organizer" 
             class="{{ $errors->has('organizer_name') ? 'input-error' : '' }}" />
         @error('organizer_name')<div class="field-error">{{ $message }}</div>@enderror
-    </div>
+    </div><br>
 
-    <button type="submit">Create event</button>
+    <button type="submit" class="button secondary" href="">Create event</button><br><br>
     <a class="button secondary" href="{{ route('events.index') }}">Back to events</a>
 </form>
 @endsection

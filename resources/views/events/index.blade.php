@@ -78,7 +78,6 @@
                     <tr>
                         <td colspan="7">
                             <div class="empty-state">
-                                <div class="empty-state-icon">&#128197;</div>
                                 <p>No events found. Try a different search or create a new event.</p>
                                 <a class="btn btn-primary btn-sm" href="{{ route('events.create') }}">Create Event</a>
                             </div>
